@@ -1,4 +1,5 @@
 import { Leaf } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -24,21 +25,21 @@ const Footer = () => {
 
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <a href="#about" className="text-muted-foreground hover:text-primary transition-smooth">
+            <Link to="/about" className="text-muted-foreground hover:text-primary transition-smooth">
               About
-            </a>
-            <a href="#how-it-works" className="text-muted-foreground hover:text-primary transition-smooth">
+            </Link>
+            <Link to="/how-it-works" className="text-muted-foreground hover:text-primary transition-smooth">
               How It Works
-            </a>
-            <a href="#features" className="text-muted-foreground hover:text-primary transition-smooth">
+            </Link>
+            <Link to="/features" className="text-muted-foreground hover:text-primary transition-smooth">
               Features
-            </a>
-            <a href="#price-bot" className="text-muted-foreground hover:text-primary transition-smooth">
+            </Link>
+            <Link to="/price-bot" className="text-muted-foreground hover:text-primary transition-smooth">
               Price Bot
-            </a>
-            <a href="#contact" className="text-muted-foreground hover:text-primary transition-smooth">
+            </Link>
+            <Link to="/contact" className="text-muted-foreground hover:text-primary transition-smooth">
               Contact
-            </a>
+            </Link>
           </div>
 
           {/* Copyright */}

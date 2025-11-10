@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-farmland.jpg";
 
 const Hero = () => {
@@ -42,14 +43,15 @@ const Hero = () => {
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             
-            <Button 
-              size="lg"
-              variant="outline"
-              className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border-white/30 text-lg px-8 py-6"
-              onClick={() => document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Join the Marketplace
-            </Button>
+            <Link to="/contact">
+              <Button 
+                size="lg"
+                variant="outline"
+                className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border-white/30 text-lg px-8 py-6"
+              >
+                Join the Marketplace
+              </Button>
+            </Link>
           </div>
 
           {/* Stats */}
