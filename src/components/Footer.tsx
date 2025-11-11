@@ -34,6 +34,9 @@ const Footer = () => {
             <Link to="/features" className="text-muted-foreground hover:text-primary transition-smooth">
               Features
             </Link>
+            <Link to="/marketplace" className="text-muted-foreground hover:text-primary transition-smooth">
+              Marketplace
+            </Link>
             <Link to="/price-bot" className="text-muted-foreground hover:text-primary transition-smooth">
               Price Bot
             </Link>
