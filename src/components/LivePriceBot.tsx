@@ -29,11 +29,17 @@ const LivePriceBot = () => {
                 <Button 
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-hover transition-smooth"
-                  onClick={() => window.open('https://huggingface.co/spaces/krishna1705/KRISHNApro', '_blank')}
+                  asChild
                 >
-                  <Bot className="mr-2 w-5 h-5" />
-                  Talk to Price Bot
-                  <ExternalLink className="ml-2 w-4 h-4" />
+                  <a 
+                    href="https://huggingface.co/spaces/krishna1705/KRISHNApro" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <Bot className="mr-2 w-5 h-5" />
+                    Talk to Price Bot
+                    <ExternalLink className="ml-2 w-4 h-4" />
+                  </a>
                 </Button>
               </div>
             </div>

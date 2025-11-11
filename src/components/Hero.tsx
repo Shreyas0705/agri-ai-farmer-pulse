@@ -37,10 +37,16 @@ const Hero = () => {
             <Button 
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-hover transition-smooth text-lg px-8 py-6"
-              onClick={() => window.open('https://huggingface.co/spaces/krishna1705/KRISHNApro', '_blank')}
+              asChild
             >
-              Check Live Prices
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <a 
+                href="https://huggingface.co/spaces/krishna1705/KRISHNApro" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                Check Live Prices
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </a>
             </Button>
             
             <Link to="/contact">

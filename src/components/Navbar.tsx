@@ -73,9 +73,15 @@ const Navbar = () => {
             <Button
               size="sm"
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              onClick={() => window.open('https://huggingface.co/spaces/krishna1705/KRISHNApro', '_blank')}
+              asChild
             >
-              Check Prices
+              <a 
+                href="https://huggingface.co/spaces/krishna1705/KRISHNApro" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                Check Prices
+              </a>
             </Button>
           </div>
 
@@ -128,12 +134,16 @@ const Navbar = () => {
               <Button
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground mx-4"
-                onClick={() => {
-                  window.open('https://huggingface.co/spaces/krishna1705/KRISHNApro', '_blank');
-                  setIsOpen(false);
-                }}
+                asChild
               >
-                Check Prices
+                <a 
+                  href="https://huggingface.co/spaces/krishna1705/KRISHNApro" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Check Prices
+                </a>
               </Button>
             </div>
           </div>
