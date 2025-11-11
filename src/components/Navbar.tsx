@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Leaf, Menu, X } from "lucide-react";
+import { Leaf, Menu, X, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/contexts/CartContext";
+import CartDrawer from "@/components/marketplace/CartDrawer";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const location = useLocation();
+  const { totalItems } = useCart();
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -55,6 +59,19 @@ const Navbar = () => {
             ))}
             <Button
               size="sm"
+              variant="ghost"
+              className="relative"
+              onClick={() => setCartOpen(true)}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </Button>
+            <Button
+              size="sm"
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
               onClick={() => window.open('https://huggingface.co/spaces/krishna1705/KRISHNApro', '_blank')}
             >
@@ -93,6 +110,23 @@ const Navbar = () => {
               ))}
               <Button
                 size="sm"
+                variant="ghost"
+                className="mx-4 relative"
+                onClick={() => {
+                  setCartOpen(true);
+                  setIsOpen(false);
+                }}
+              >
+                <ShoppingCart className="w-5 h-5" />
+                Cart
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </Button>
+              <Button
+                size="sm"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground mx-4"
                 onClick={() => {
                   window.open('https://huggingface.co/spaces/krishna1705/KRISHNApro', '_blank');
@@ -105,6 +139,8 @@ const Navbar = () => {
           </div>
         )}
       </div>
+
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </nav>
   );
 };

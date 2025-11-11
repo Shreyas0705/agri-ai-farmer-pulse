@@ -11,6 +11,7 @@ interface ProductCardProps {
   quantity: string;
   farmerName: string;
   location: string;
+  type?: string;
   aiPredicted?: boolean;
   onAddToCart: (id: number) => void;
 }

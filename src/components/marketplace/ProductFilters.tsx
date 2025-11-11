@@ -4,9 +4,13 @@ import { Filter, ArrowUpDown } from "lucide-react";
 interface ProductFiltersProps {
   onSortChange: (value: string) => void;
   onStateFilter: (value: string) => void;
+  onCropFilter: (value: string) => void;
+  selectedSort: string;
+  selectedState: string;
+  selectedCrop: string;
 }
 
-const ProductFilters = ({ onSortChange, onStateFilter }: ProductFiltersProps) => {
+const ProductFilters = ({ onSortChange, onStateFilter, onCropFilter, selectedSort, selectedState, selectedCrop }: ProductFiltersProps) => {
   return (
     <div className="bg-muted/30 border border-border/50 rounded-lg p-4 mb-6">
       <div className="flex flex-col md:flex-row gap-4">
@@ -15,7 +19,7 @@ const ProductFilters = ({ onSortChange, onStateFilter }: ProductFiltersProps) =>
             <ArrowUpDown className="w-4 h-4 text-primary" />
             Sort By
           </label>
-          <Select onValueChange={onSortChange} defaultValue="price-low">
+          <Select onValueChange={onSortChange} value={selectedSort}>
             <SelectTrigger className="bg-background">
               <SelectValue placeholder="Select sorting" />
             </SelectTrigger>
@@ -33,15 +37,15 @@ const ProductFilters = ({ onSortChange, onStateFilter }: ProductFiltersProps) =>
             <Filter className="w-4 h-4 text-primary" />
             Filter by State
           </label>
-          <Select onValueChange={onStateFilter} defaultValue="all">
+          <Select onValueChange={onStateFilter} value={selectedState}>
             <SelectTrigger className="bg-background">
               <SelectValue placeholder="Select state" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All States</SelectItem>
               <SelectItem value="maharashtra">Maharashtra</SelectItem>
-              <SelectItem value="uttar-pradesh">Uttar Pradesh</SelectItem>
-              <SelectItem value="madhya-pradesh">Madhya Pradesh</SelectItem>
+              <SelectItem value="uttar pradesh">Uttar Pradesh</SelectItem>
+              <SelectItem value="madhya pradesh">Madhya Pradesh</SelectItem>
               <SelectItem value="punjab">Punjab</SelectItem>
               <SelectItem value="gujarat">Gujarat</SelectItem>
             </SelectContent>
@@ -53,15 +57,15 @@ const ProductFilters = ({ onSortChange, onStateFilter }: ProductFiltersProps) =>
             <Filter className="w-4 h-4 text-primary" />
             Crop Type
           </label>
-          <Select defaultValue="all">
+          <Select onValueChange={onCropFilter} value={selectedCrop}>
             <SelectTrigger className="bg-background">
               <SelectValue placeholder="Select crop" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Crops</SelectItem>
-              <SelectItem value="vegetables">Vegetables</SelectItem>
-              <SelectItem value="pulses">Pulses</SelectItem>
-              <SelectItem value="grains">Grains</SelectItem>
+              <SelectItem value="onion">Onion</SelectItem>
+              <SelectItem value="potato">Potato</SelectItem>
+              <SelectItem value="pulses">Pulses/Dal</SelectItem>
             </SelectContent>
           </Select>
         </div>

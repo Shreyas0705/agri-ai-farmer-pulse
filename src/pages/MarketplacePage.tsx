@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/marketplace/ProductCard";
@@ -7,7 +7,7 @@ import CheckoutModal from "@/components/marketplace/CheckoutModal";
 import FarmerUploadModal from "@/components/marketplace/FarmerUploadModal";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, User, ShoppingBag } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
 import marketplaceHero from "@/assets/marketplace-hero.jpg";
 import onionImage from "@/assets/onion.jpg";
 import potatoImage from "@/assets/potato.jpg";
@@ -17,8 +17,12 @@ const MarketplacePage = () => {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [farmerUploadOpen, setFarmerUploadOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<string>("");
+  const [sortBy, setSortBy] = useState("price-low");
+  const [filterState, setFilterState] = useState("all");
+  const [filterCrop, setFilterCrop] = useState("all");
+  const { addToCart } = useCart();
 
-  const products = [
+  const allProducts = [
     {
       id: 1,
       name: "Fresh Red Onion",
@@ -27,6 +31,7 @@ const MarketplacePage = () => {
       quantity: "500 kg",
       farmerName: "Ramesh Kumar",
       location: "Nashik, Maharashtra",
+      type: "onion",
     },
     {
       id: 2,
@@ -36,6 +41,7 @@ const MarketplacePage = () => {
       quantity: "750 kg",
       farmerName: "Meena Devi",
       location: "Kanpur, Uttar Pradesh",
+      type: "potato",
     },
     {
       id: 3,
@@ -45,6 +51,7 @@ const MarketplacePage = () => {
       quantity: "200 kg",
       farmerName: "Mohan Singh",
       location: "Indore, Madhya Pradesh",
+      type: "pulses",
     },
     {
       id: 4,
@@ -54,6 +61,7 @@ const MarketplacePage = () => {
       quantity: "300 kg",
       farmerName: "Suresh Patil",
       location: "Pune, Maharashtra",
+      type: "onion",
     },
     {
       id: 5,
@@ -63,6 +71,7 @@ const MarketplacePage = () => {
       quantity: "600 kg",
       farmerName: "Rajesh Kumar",
       location: "Agra, Uttar Pradesh",
+      type: "potato",
     },
     {
       id: 6,
@@ -72,12 +81,70 @@ const MarketplacePage = () => {
       quantity: "150 kg",
       farmerName: "Vikram Rao",
       location: "Bhopal, Madhya Pradesh",
+      type: "pulses",
     },
   ];
 
+  // Filter and sort products
+  const filteredAndSortedProducts = useMemo(() => {
+    let filtered = [...allProducts];
+
+    // Filter by state
+    if (filterState !== "all") {
+      filtered = filtered.filter((product) =>
+        product.location.toLowerCase().includes(filterState.toLowerCase())
+      );
+    }
+
+    // Filter by crop type
+    if (filterCrop !== "all") {
+      filtered = filtered.filter((product) => product.type === filterCrop);
+    }
+
+    // Sort products
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "price-low":
+          return a.price - b.price;
+        case "price-high":
+          return b.price - a.price;
+        case "name":
+          return a.name.localeCompare(b.name);
+        case "location":
+          return a.location.localeCompare(b.location);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  }, [filterState, filterCrop, sortBy]);
+
   const handleAddToCart = (id: number) => {
-    const product = products.find((p) => p.id === id);
+    const product = allProducts.find((p) => p.id === id);
     if (product) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        farmerName: product.farmerName,
+        location: product.location,
+      });
+    }
+  };
+
+  const handleBuyNow = (id: number) => {
+    const product = allProducts.find((p) => p.id === id);
+    if (product) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        farmerName: product.farmerName,
+        location: product.location,
+      });
       setSelectedProduct(product.name);
       setCheckoutOpen(true);
     }
@@ -142,19 +209,40 @@ const MarketplacePage = () => {
           </div>
 
           <ProductFilters
-            onSortChange={(value) => toast({ title: `Sorted by: ${value}` })}
-            onStateFilter={(value) => toast({ title: `Filtered by: ${value}` })}
+            onSortChange={setSortBy}
+            onStateFilter={setFilterState}
+            onCropFilter={setFilterCrop}
+            selectedSort={sortBy}
+            selectedState={filterState}
+            selectedCrop={filterCrop}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                {...product}
-                onAddToCart={handleAddToCart}
-              />
-            ))}
-          </div>
+          {filteredAndSortedProducts.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground text-lg">No products found matching your filters.</p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() => {
+                  setSortBy("price-low");
+                  setFilterState("all");
+                  setFilterCrop("all");
+                }}
+              >
+                Clear Filters
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredAndSortedProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  {...product}
+                  onAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
